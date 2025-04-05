@@ -5,7 +5,10 @@ on:
     branches:
       - main
 
-permissions: write-all
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
   release:
@@ -14,3 +17,5 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           release-type: python
+          package-name: wpmx
+          version-file: pyproject.toml
