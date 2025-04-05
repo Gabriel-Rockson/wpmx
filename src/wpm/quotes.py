@@ -15,17 +15,18 @@ The quotes database is *not* covered by the AGPL!
 
 import codecs
 import gzip
+import importlib.resources as resources
 import json
 import os
 import random
 import sys
 
-import pkg_resources
-
 from wpm.error import WpmError
+
 
 class Quote(object):
     """Holds a single quote."""
+
     # pylint: disable=too-few-public-methods
 
     def __init__(self, author, title, text, text_id):
@@ -44,11 +45,12 @@ class Quote(object):
         return Quote(author, title, text, text_id)
 
     def __str__(self):
-        return "\"%s\"\n\t- %s: %s" % (self.text, self.author, self.title)
+        return '"%s"\n\t- %s: %s' % (self.text, self.author, self.title)
 
 
 class RandomIterator(object):
     """Random, bi-directional iterator."""
+
     def __init__(self, quotes):
         self.quotes = quotes
         self.indices = list(range(len(self.quotes)))
@@ -121,6 +123,7 @@ class RandomIterator(object):
 
 class Quotes(object):
     """Container for quotes."""
+
     def __init__(self, quotes=None, database=None):
         self.quotes = quotes
         self.database = database
@@ -163,7 +166,7 @@ class Quotes(object):
     @staticmethod
     def _database_filename():
         """Returns the filename of the packaged database."""
-        return pkg_resources.resource_filename("wpm", "data/examples.json.gz")
+        return resources.files("wpm.data").joinpath("examples.json.gz")
 
     @staticmethod
     def load_json(filename=None):
